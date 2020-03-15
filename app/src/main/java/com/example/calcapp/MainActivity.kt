@@ -4,13 +4,15 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity()
     , View.OnClickListener {
+
+    private val tag = "MainActivity"
 
     companion object {
         const val EXTRA_RESULT = "result"
@@ -24,9 +26,12 @@ class MainActivity : AppCompatActivity()
     }
 
     override fun onClick(v: View) {
+        Log.d(tag, "onClick")
+
         // InputTypeで制限している為、空判定だけ行う.
         if (etValue1.text.isEmpty() || etValue2.text.isEmpty()) {
             Snackbar.make(v, "数値を入力してください", Snackbar.LENGTH_SHORT).show()
+            Log.d(tag, "Text is Empty")
             return
         }
         val value1: Double = etValue1.text.toString().toDouble()
@@ -43,7 +48,7 @@ class MainActivity : AppCompatActivity()
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra(EXTRA_RESULT, result)
             startActivity(intent)
-        }
+        } ?: Log.d(tag, "result is null")
     }
 
     private fun setListener() {
